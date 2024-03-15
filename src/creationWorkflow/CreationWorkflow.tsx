@@ -4,6 +4,7 @@ import { ExperienceSteps } from "./ExperienceSteps"
 import { useState } from "react"
 import { Page, getLinkableUrl } from "../page";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { savePerson } from "../PersonalInfoSectionView/PersonSlice";
 
 function CreationWorkflow() {
   const [stepIndex, setStepIndex] = useState(0);
@@ -14,7 +15,7 @@ function CreationWorkflow() {
 
   const dispatch = useAppDispatch();
   const handleOnSubmit = () => {
-    // dispatch()
+    dispatch(savePerson())
   };
 
   const begin: WizardProps.Step = {

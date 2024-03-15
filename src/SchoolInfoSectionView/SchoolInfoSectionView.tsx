@@ -1,20 +1,19 @@
 import { Container, FormField, Header, Input } from "@awsui/components-react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { selectSchool, udpateSchool } from "./SchoolSlice";
 import { schoolInfo } from "../constant/Person";
-import { selectIsEdit } from "../PersonalInfoSectionView/PersonSlice";
+import { selectIsEdit, selectPerson, udpateSchoolInfo } from "../PersonalInfoSectionView/PersonSlice";
 
 
 
 
 function SchoolInfoSectionView() {
 
-  const school = useAppSelector(selectSchool); // 帮你从central store 拿数据
+  const school = useAppSelector(selectPerson).getSchoolInfo();// 帮你从central store 拿数据
   const isEdit = useAppSelector(selectIsEdit);
   // SchoolModel
   const dispatch = useAppDispatch();
   const updateSchoolInfo = (school: schoolInfo) => {
-    dispatch(udpateSchool({
+    dispatch(udpateSchoolInfo({
       ...school
     }))
   };

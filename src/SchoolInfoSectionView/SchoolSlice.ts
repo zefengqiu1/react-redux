@@ -18,15 +18,10 @@ export const schoolSlice = createSlice({
   name: 'school',
   initialState,
   reducers: {
-    udpateSchool: (state, action: PayloadAction<schoolInfo>) => {
-      const updatedSchool = action.payload;
-      state.school = updatedSchool;
-    },
-  },
+  }
 
 });
 
-export const { udpateSchool } = schoolSlice.actions;
 
 export const selectSchool = (state: RootState) => state.school.school;
 

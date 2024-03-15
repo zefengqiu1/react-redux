@@ -12,12 +12,14 @@ export interface workInfo {
 }
 
 export interface IPersonUpdate {
+  id?:string
   basicInfo?: basicInfo
   schoolInfo?: schoolInfo
   workInfo?: workInfo
 }
 
 export interface BackendPerson {
+  id?:string
   basicInfo?: basicInfo
   schoolInfo?: schoolInfo
 }
@@ -50,14 +52,13 @@ export class PersonUpdate {
   }
 
   static createExperience(personUpdate: IPersonUpdate): PersonUpdate {
-    // const person = PersonUpdate.deepClone(personUpdate);
-
     const candidate = new PersonUpdate(PersonUpdate.extractUpdatePerson(personUpdate));
     return candidate;
   }
 
   transformToBackendPersonModel(): BackendPerson {
     return {
+      id: this.props.id,
       basicInfo: this.props.basicInfo,
       schoolInfo: this.props.schoolInfo
     }
@@ -79,6 +80,7 @@ export class PersonUpdate {
 
   static extractUpdatePerson(person: IPersonUpdate): IPersonUpdate {
     const res = {
+      id: person.id,
       basicInfo: PersonUpdate.extractBasicInfo(person.basicInfo),
       schoolInfo: this.extractSchoolInfo(person.schoolInfo)
 

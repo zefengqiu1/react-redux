@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState, AppThunk } from '../app/store';
 import { BackendPerson, basicInfo, IPersonUpdate, PersonUpdate, schoolInfo } from '../constant/Person';
 import { getPerson, putPerson } from '../api/acops';
+import { getLinkableUrl, Page } from '../page';
 
 
 export interface PersonState {
@@ -56,12 +57,16 @@ export const personSlice = createSlice({
 // Here's an example of conditionally dispatching actions based on current state.
 export const savePerson = (): AppThunk =>
   async (dispatch, getState) => {
+    const state = getState();
     const person = selectPerson(getState());
     const backendPerson = person.transformToBackendPersonModel();
     const id: string = await putPerson(backendPerson);
+    console.log(id);
     const backenndPerson = await getPerson(id);
-    //dispatch updated exprience to set detail page isEdit to false;
-    // getState().person.person = backenndPersonTransformToPersonUpdate(backenndPerson);
+    setTimeout(()=>{
+      Object.assign(state.person.person, PersonUpdate.backenndPersonTransformToPersonUpdate(backenndPerson));
+      window.location.assign(getLinkableUrl(Page.Experiences + '/' + id));
+    },2000)
 
   };
 
@@ -69,42 +74,14 @@ export const savePerson = (): AppThunk =>
 export const retrievePerson = (id: string): AppThunk =>
   async (dispatch, getState) => {
     const state = getState();
-    // const backenndPerson = await getPerson(id);
-    // getState().person.person = backenndPersonTransformToPersonUpdate(backenndPerson);
-    //dispatch updated exprience to set detail page isEdit to false;
-    // getState().person.isEditing = false;
-    // const backenndPerson = await getPerson(id);
-    const backenndPerson: BackendPerson = {
-      basicInfo: {
-        firstName: 'azxa',
-        lastName: 'asds'
-      },
-      schoolInfo: {
-        name: 'sjsu',
-        degree: 'bachelor'
-      }
-    }
+    const backenndPerson = await getPerson(id);
     Object.assign(state.person.person, PersonUpdate.backenndPersonTransformToPersonUpdate(backenndPerson));
-    // state.person.person = PersonUpdate.backenndPersonTransformToPersonUpdate(backenndPerson);
     dispatch(enableEdit(false));
-    // const backenndPerson: BackendPerson = {
-    //   basicInfo: {
-    //     firstName: 'azxa',
-    //     lastName: 'asds'
-    //   },
-    //   schoolInfo: {
-    //     name: 'sjsu',
-    //     degree: 'bachelor'
-    //   }
-    // }
-    // getState().person.person = PersonUpdate.backenndPersonTransformToPersonUpdate(backenndPerson);
 
   };
 
-
-export const { udpateBasicInfo, enableEdit } = personSlice.actions;
+export const { udpateBasicInfo, enableEdit, udpateSchoolInfo } = personSlice.actions;
 export const selectIsEdit = (state: RootState) => state.person.isEditing;
-
 export const selectPerson = (state: RootState) => state.person.person;
 
 export default personSlice.reducer;

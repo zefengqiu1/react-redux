@@ -23,7 +23,7 @@ export async function putPerson(person: BackendPerson): Promise<string> {
 
 //
 export async function getPerson(id: string): Promise<BackendPerson> {
-  const response = await axios.get<BackendPerson>(`http://localhost:8080/api/person:${id}`);
+  const response = await axios.get<BackendPerson>(`http://localhost:8080/api/person/${id}`);
   return response.data; // person person
 }
 

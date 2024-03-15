@@ -4,6 +4,7 @@ import PersonalInfoSectionView from '../PersonalInfoSectionView/PersonalInfoSect
 import SchoolInfoSectionView from '../SchoolInfoSectionView/SchoolInfoSectionView';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { enableEdit, retrievePerson, selectIsEdit } from '../PersonalInfoSectionView/PersonSlice';
+import { savePersonOndetailPage } from './detailPageSlice';
 
 function GlobalSectionView() {
   return <div>
@@ -23,15 +24,21 @@ function ExposureSectionView() {
 }
 
 function Detailpage() {
+ 
   const [ativeTab, setActiveTab] = useState('1');
   const isEdit = useAppSelector(selectIsEdit);
   useEffect(() => {
-    dispatch(retrievePerson('123'));
-  }, [isEdit]);
+    const arr = window.location.toString().split('/');
+    dispatch(retrievePerson(arr[arr.length-1]));
+  }, []);
   const dispatch = useAppDispatch();
   const updateIsEdit = () => {
     dispatch(enableEdit(!isEdit));
   };
+  const saveHandler = () =>{
+    dispatch(enableEdit(!isEdit));
+    dispatch(savePersonOndetailPage());
+  }
 
 
   return <div>
@@ -49,7 +56,7 @@ function Detailpage() {
     {isEdit ?
       <div>
         <Button
-          onClick={() => updateIsEdit()}> save</Button>
+          onClick={() => saveHandler()}> save</Button>
       </div> : <div>
         <Button onClick={() => updateIsEdit()}> edit</Button>
       </div>
