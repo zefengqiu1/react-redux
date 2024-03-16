@@ -3,8 +3,7 @@ import { useEffect, useState } from 'react'
 import PersonalInfoSectionView from '../PersonalInfoSectionView/PersonalInfoSectionView';
 import SchoolInfoSectionView from '../SchoolInfoSectionView/SchoolInfoSectionView';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { enableEdit, retrievePerson, selectIsEdit } from '../PersonalInfoSectionView/PersonSlice';
-import { savePersonOndetailPage } from './detailPageSlice';
+import { enableEdit, retrievePerson, savePersonOndetailPage, selectIsEdit } from '../PersonalInfoSectionView/PersonSlice';
 
 function GlobalSectionView() {
   return <div>
@@ -27,10 +26,11 @@ function Detailpage() {
  
   const [ativeTab, setActiveTab] = useState('1');
   const isEdit = useAppSelector(selectIsEdit);
+  
   useEffect(() => {
     const arr = window.location.toString().split('/');
     dispatch(retrievePerson(arr[arr.length-1]));
-  }, []);
+  },);
   const dispatch = useAppDispatch();
   const updateIsEdit = () => {
     dispatch(enableEdit(!isEdit));

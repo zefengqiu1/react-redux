@@ -1,4 +1,4 @@
-import { Container, Header, SpaceBetween } from "@awsui/components-react";
+import { Container, Header } from "@awsui/components-react";
 
 
 function BeforeCreationWordflow() {

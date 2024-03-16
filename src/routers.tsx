@@ -13,9 +13,9 @@ import Detailpage from "./detailPage/detailPage";
 const Routers = () => {
   return <BrowserRouter>
     <Switch>
-      <Route path={Page.NewExperience} component={CreationWorkflow} />
+      <Route exact path={Page.NewExperience} component={CreationWorkflow} />
       <Route path={Page.ExperienceDetail} component={Detailpage} />
-      <Route exact path={Page.Home} component={HomePage} />
+      <Route path={Page.Home} component={HomePage} />
     </Switch>
   </BrowserRouter>
 }

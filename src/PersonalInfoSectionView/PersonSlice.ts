@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState, AppThunk } from '../app/store';
-import { BackendPerson, basicInfo, IPersonUpdate, PersonUpdate, schoolInfo } from '../constant/Person';
+import { basicInfo, IPersonUpdate, PersonUpdate, schoolInfo } from '../constant/Person';
 import { getPerson, putPerson } from '../api/acops';
 import { getLinkableUrl, Page } from '../page';
 
@@ -20,7 +20,7 @@ const emptyPerson: IPersonUpdate = {
   }
 }
 const initialState: PersonState = {
-  person: PersonUpdate.createExperience(emptyPerson),
+  person:  new PersonUpdate(emptyPerson),
   isEditing: true
 };
 
@@ -78,6 +78,14 @@ export const retrievePerson = (id: string): AppThunk =>
     Object.assign(state.person.person, PersonUpdate.backenndPersonTransformToPersonUpdate(backenndPerson));
     dispatch(enableEdit(false));
 
+  };
+
+  export const savePersonOndetailPage = (): AppThunk =>
+  async (dispatch, getState) => {
+    const state = getState();
+    const person = selectPerson(getState());
+    const backendPerson = person.transformToBackendPersonModel();
+    const id: string = await putPerson(backendPerson);
   };
 
 export const { udpateBasicInfo, enableEdit, udpateSchoolInfo } = personSlice.actions;

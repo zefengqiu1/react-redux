@@ -51,10 +51,6 @@ export class PersonUpdate {
     return this.props.schoolInfo;
   }
 
-  static createExperience(personUpdate: IPersonUpdate): PersonUpdate {
-    const candidate = new PersonUpdate(PersonUpdate.extractUpdatePerson(personUpdate));
-    return candidate;
-  }
 
   transformToBackendPersonModel(): BackendPerson {
     return {
